@@ -241,15 +241,22 @@
     }
 
     // Manejo de "descargas" demo — en producción sustituir por URLs reales
-    function download(type){
-      const map = {
-        'exe': 'html/python-3.14.0-amd64.exe',
-        'src': 'html/PY_NASCAR_EMAYLEO.py'
-      };
-      const url = map[type] || map['src'];
-      // Abrir en nueva pestaña — en un sitio real, asegúrate de servir ficheros desde tu servidor.
-      window.open(url, '_blank');
-    }
+   function download(type){
+       const map = {
+    'exe': 'html/python-3.14.0-amd64.exe',
+    'src': 'html/PY_NASCAR_EMAYLEO.py'
+  };
+  const fileUrl = map[type] || map['src'];
+
+  // Crear un enlace temporal para descargar
+  const a = document.createElement('a');
+  a.href = fileUrl;
+  a.download = fileUrl.split('/').pop(); // usa el nombre del archivo
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+
 
     // Accordion
     function toggleAcc(id){
@@ -267,5 +274,6 @@
   </script>
 </body>
 </html>
+
 
 
