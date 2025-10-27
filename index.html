@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="icon" href="logo.jpeg" type="image/x-icon">
+  <title>NASCAR FINAL FX</title>
+  <meta name="description" content="PyNASCAR - Juego estilo NASCAR hecho en Python / Pygame. Descargas, requisitos e instrucciones.">
+  <style>
+    /* Reset y base */
+    :root{
+      --bg:#0b1020; --panel:#11131a; --accent:#ffcc00; --muted:#9aa0b4; --glass: rgba(255,255,255,0.04);
+      --mono: 'Courier New', Courier, monospace;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:var(--mono);background:linear-gradient(180deg,#071023 0%, #0b1020 100%);color:#e6eef8}
+    a{color:var(--accent);text-decoration:none}
+    .container{max-width:1100px;margin:28px auto;padding:20px}
+
+    /* Cabecera */
+    header{display:flex;align-items:center;gap:18px}
+    .logo{width:120px;height:80px;padding:6px;background:linear-gradient(45deg,#111827 0,#0f1724 100%);border-radius:8px;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(0,0,0,.6)}
+    .sitename{font-size:20px;letter-spacing:2px}
+    .tag{font-size:12px;color:var(--muted)}
+
+    /* Pixel art car (SVG container) */
+    .pixel-hero{display:flex;align-items:center;gap:18px;padding:18px;margin:18px 0;background:var(--glass);border-radius:12px;box-shadow:inset 0 -2px 0 rgba(0,0,0,.5)}
+    .hero-text{flex:1}
+    h1{margin:0;font-size:28px}
+    p.lead{margin:6px 0;color:var(--muted)}
+
+    /* Grid principal */
+    main{display:grid;grid-template-columns:1fr 320px;gap:18px}
+    .card{background:linear-gradient(180deg,#0f1626 0,#0c1220 100%);padding:16px;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
+
+    /* Secciones */
+    section h2{margin:0 0 8px 0;font-size:18px}
+    .features{display:flex;flex-direction:column;gap:8px}
+    .feature{display:flex;gap:12px;align-items:center}
+    .badge{width:44px;height:24px;background:rgba(255,255,255,0.02);display:inline-flex;align-items:center;justify-content:center;border-radius:6px}
+
+    /* Descargas */
+    .downloads{display:flex;flex-direction:column;gap:12px}
+    .dl-row{display:flex;justify-content:space-between;align-items:center;padding:10px;background:rgba(255,255,255,0.02);border-radius:8px}
+    .btn{background:linear-gradient(180deg,var(--accent),#e6b800);color:#0b0b0b;padding:8px 12px;border-radius:8px;font-weight:700;cursor:pointer;border:0}
+    .btn:active{transform:translateY(1px)}
+
+    /* Requisitos */
+    .req-list{font-size:14px;color:var(--muted);line-height:1.45}
+    .accordion{margin-top:10px}
+    .acc-head{display:flex;justify-content:space-between;align-items:center;cursor:pointer;padding:8px;border-radius:8px;background:rgba(255,255,255,0.01)}
+
+    /* Footer y small */
+    footer{margin-top:20px;text-align:center;color:var(--muted);font-size:13px}
+
+    /* Pixelized look — escala y borde tipo píxel */
+    .pixelized{image-rendering:pixelated;image-rendering:-webkit-optimize-contrast}
+    .pixel-font{font-family:var(--mono);font-size:13px}
+
+    /* Responsive */
+    @media (max-width:900px){main{grid-template-columns:1fr} .logo{display:none}}
+
+    /* Tiny pixel-car controls for SVG block */
+    .car-wrap{width:220px;height:92px}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <div class="sitename">NASCAR FX VERSION</div>
+        <div class="tag">Un juego inspirado en NASCAR hecho en Python</div>
+      </div>
+    </header>
+
+    <div class="pixel-hero card">
+      <div class="car-wrap">
+        <!-- Pixel art car: SVG simple y escalable -->
+        <svg viewBox="0 0 220 92" width="100%" height="100%" class="pixelized" xmlns="http://www.w3.org/2000/svg">
+          <!-- fondo de cuadrícula (opcional) -->
+          <rect width="220" height="92" fill="#071426"/>
+          <!-- carro pixelado construido con rectángulos -->
+          <g transform="translate(6,18)">
+            <!-- carro base -->
+            <rect x="4" y="22" width="160" height="18" fill="#ffcc00" />
+            <rect x="10" y="12" width="110" height="14" fill="#ff9900" />
+            <rect x="120" y="12" width="34" height="14" fill="#ff6600" />
+            <!-- ventana -->
+            <rect x="26" y="8" width="36" height="8" fill="#002244" />
+            <!-- rueda izquierda -->
+            <rect x="18" y="36" width="18" height="18" fill="#111111" />
+            <rect x="20" y="38" width="14" height="14" fill="#333333" />
+            <!-- rueda derecha -->
+            <rect x="120" y="36" width="18" height="18" fill="#111111" />
+            <rect x="122" y="38" width="14" height="14" fill="#333333" />
+            <!-- número -->
+            <rect x="86" y="16" width="18" height="10" fill="#ffffff" />
+            <rect x="90" y="18" width="10" height="6" fill="#0b1020" />
+            <!-- sombra -->
+            <rect x="0" y="38" width="160" height="6" fill="#000" opacity="0.2" />
+          </g>
+        </svg>
+      </div>
+
+      <div class="hero-text">
+        <h1>Es un juego hecho por Leo Bayon y Ema Colchicini</h1>
+        <p class="lead">Corre en pistas inspiradas en NASCAR con física simple y controles precisos. Portable como ejecutable de Python + Pygame.</p>
+        <div style="display:flex;gap:8px;align-items:center;margin-top:8px">
+          <button class="btn" onclick="scrollToSection('downloads')">Descargas</button>
+          <button class="btn" onclick="scrollToSection('requisitos')">Requisitos</button>
+        </div>
+      </div>
+    </div>
+
+    <main>
+      <div>
+        <section class="card">
+          <h2>Características</h2>
+          <div class="features">
+            <div class="feature"><div class="badge">1</div><div><strong>Gráficos pixel</strong> — Estética retro, sprites simples.</div></div>
+            <div class="feature"><div class="badge">2</div><div><strong>Controles</strong> — Teclado: ← → acelerar/freno. Compatible gamepads.</div></div>
+            <div class="feature"><div class="badge">3</div><div><strong>Modo local</strong> — Carreras rápidas, IA simple.</div></div>
+            <div class="feature"><div class="badge">4</div><div><strong>Fácil de modificar</strong> — Código en Python organizado para aprender.</div></div>
+          </div>
+        </section>
+
+        <section id="downloads" class="card" style="margin-top:12px">
+          <h2>Descargas</h2>
+          <p class="pixel-font" style="color:var(--muted);margin:6px 0">Haz clic para descargar el archivo compatible para Windows y Linux</p>
+
+          <div class="downloads">
+            <div class="dl-row">
+              <div>
+                <strong>NASCAR FINAL FX</strong>
+                <div class="pixel-font" style="color:var(--muted)">Tamaño aprox: 24.9 KB — Ejecutable empaquetado con PyInstaller</div>
+              </div>
+              <div>
+                <button class="btn" onclick="download('py')">Descargar</button>
+              </div>
+            </div>
+        </section>
+
+        <section id="instalacion" class="card" style="margin-top:12px">
+          <h2>Instalación (ejecutable y código)</h2>
+          <ol class="pixel-font" style="color:var(--muted)">
+            <li>Si tienes el <strong>.exe</strong>: descarga y ejecuta. Puede requerir permisos de Windows.</li>
+            <li>Si tienes el <strong>código fuente</strong>:
+              <ul>
+                <li>Instala Python 3.10 o superior: https://www.python.org/</li>
+                <li>Desde la carpeta del proyecto ejecuta: <code>python -m pip install -r requirements.txt</code></li>
+                <li>Inicia: <code>python main.py</code></li>
+              </ul>
+            </li>
+          </ol>
+        </section>
+
+        <section id="requisitos" class="card" style="margin-top:12px">
+          <h2>Requisitos del sistema</h2>
+          <p class="pixel-font" style="color:var(--muted)">A continuación se indican requisitos orientativos para el ejecutable Python/Pygame que acompaña al proyecto.</p>
+          <div class="req-list">
+            <strong>Mínimos</strong>
+            <ul>
+              <li>OS: Windows 10 / Ubuntu 20.04 o equivalente.</li>
+              <li>CPU: 2 núcleos modernos.</li>
+              <li>RAM: 2 GB.</li>
+              <li>Espacio: 50 MB libres.</li>
+              <li>Python: no requerido si usas .exe; si ejecutas desde fuente: Python 3.10+ y Pygame 2.x.</li>
+            </ul>
+            <strong>Recomendado</strong>
+            <ul>
+              <li>OS: Windows 10/11 o una distro Linux reciente.</li>
+              <li>CPU: 4 núcleos.</li>
+              <li>RAM: 4 GB+</li>
+              <li>GPU: aceleración 2D (drivers actualizados).</li>
+              <li>Python 3.10+ y Pygame 2.1+ si ejecutas desde fuente.</li>
+            </ul>
+
+            <div class="accordion">
+              <div class="acc-head" onclick="toggleAcc('acc1')">
+                <div>Detalles técnicos — dependencias (click)</div>
+                <div id="acc1-icon">▶</div>
+              </div>
+              <div id="acc1" style="display:none;margin-top:8px;color:var(--muted)">
+                <ul>
+                  <li>requirements.txt típico: <code>pygame>=2.0.0</code>, <code>numpy</code> (opcional)</li>
+                  <li>Si empaquetas con PyInstaller: comprueba la inclusión de carpetas assets/ y pygame DLLs en Windows.</li>
+                </ul>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+      </div>
+
+      <aside class="card">
+        <h2>Panel rápido</h2>
+        <div style="margin-top:8px">
+          <div style="margin-bottom:8px"><strong>Versión:</strong> 0.9-demo</div>
+          <div style="margin-bottom:8px"><strong>Tamaño .exe:</strong> 18 MB (estimado)</div>
+          <div style="margin-bottom:8px"><strong>Formato:</strong> .exe (Windows), .zip (código)</div>
+        </div>
+
+        <div style="margin-top:12px">
+          <h3 style="margin:0 0 6px 0">Controles</h3>
+          <div class="pixel-font" style="color:var(--muted)">
+            ← / → : Girar — ↑ acelerar — ↓ frenar — Espacio: turbo (si está disponible)
+          </div>
+        </div>
+
+        <div style="margin-top:12px">
+          <h3 style="margin:0 0 6px 0">Notas para empaquetar</h3>
+          <div class="pixel-font" style="color:var(--muted)">
+            Usa <code>pyinstaller --onefile --add-data "assets;assets" main.py</code> en Windows. Ajusta rutas de assets en el código para soporte de PyInstaller.
+          </div>
+        </div>
+      </aside>
+    </main>
+
+    <footer>
+      <div>© PyNASCAR — Proyecto de demostración. Reemplaza los enlaces de descarga con tus ficheros reales.</div>
+    </footer>
+  </div>
+
+  <script>
+    // Navegación sencilla
+    function scrollToSection(id){
+      const el = document.getElementById(id);
+      if(!el) return;
+      el.scrollIntoView({behavior:'smooth',block:'start'});
+    }
+
+    // Manejo de "descargas" demo — en producción sustituir por URLs reales
+    function download(type){
+       const map = {
+    'exe': 'html/python-3.14.0-amd64.exe'
+  };
+  const fileUrl = map[type] || map['src'];
+
+  // Crear un enlace temporal para descargar
+  const a = document.createElement('a');
+  a.href = fileUrl;
+  a.download = fileUrl.split('/').pop(); // usa el nombre del archivo
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+
+
+    // Accordion
+    function toggleAcc(id){
+      const el = document.getElementById(id);
+      const icon = document.getElementById(id+'-icon') || document.getElementById('acc1-icon');
+      if(!el) return;
+      if(el.style.display === 'none' || el.style.display === ''){ el.style.display = 'block'; if(icon) icon.textContent = '▼'; }
+      else { el.style.display = 'none'; if(icon) icon.textContent = '▶'; }
+    }
+
+    // Mejora: detectar ejecución desde .exe (no siempre posible) — placeholder
+    (function(){
+      // Siéntete libre de conectar a una API para estadísticas de descargas, o inyectar links finales.
+    })();
+  </script>
+</body>
+</html>
