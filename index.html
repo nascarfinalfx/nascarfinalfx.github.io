@@ -6,80 +6,195 @@
   <link rel="icon" href="logo.jpeg" type="image/x-icon">
   <title>NASCAR FINAL FX</title>
   <meta name="description" content="Juego">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   <style>
-    /* Reset y base */
-    :root{
-      --bg:#0b1020; --panel:#11131a; --accent:#ffcc00; --muted:#9aa0b4; --glass: rgba(255,255,255,0.04);
-      --mono: 'Courier New', Courier, monospace;
+    /* === ESTILO BASE FUTURISTA PIXEL === */
+    :root {
+      --bg-dark: #050510;
+      --panel: rgba(10,15,40,0.85);
+      --accent: #00d9ff;
+      --accent2: #ff0090;
+      --text: #e6faff;
+      --muted: #8fa8c4;
+      --border-glow: 0 0 8px var(--accent), 0 0 16px var(--accent2);
+      --font: 'Press Start 2P', monospace;
     }
-    *{box-sizing:border-box}
-    html,body{height:100%;margin:0;font-family:var(--mono);background:linear-gradient(180deg,#071023 0%, #0b1020 100%);color:#e6eef8}
-    a{color:var(--accent);text-decoration:none}
-    .container{max-width:1100px;margin:28px auto;padding:20px}
 
-    /* Cabecera */
-    header{display:flex;align-items:center;gap:18px}
-    .logo{width:120px;height:80px;padding:6px;background:linear-gradient(45deg,#111827 0,#0f1724 100%);border-radius:8px;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(0,0,0,.6)}
-    .sitename{font-size:20px;letter-spacing:2px}
-    .tag{font-size:12px;color:var(--muted)}
+    * {
+      box-sizing: border-box;
+      cursor: url('https://cur.cursors-4u.net/cursors/cur-11/cur1032.ani'), auto;
+    }
 
-    /* Pixel art car (SVG container) */
-    .pixel-hero{display:flex;align-items:center;gap:18px;padding:18px;margin:18px 0;background:var(--glass);border-radius:12px;box-shadow:inset 0 -2px 0 rgba(0,0,0,.5)}
-    .hero-text{flex:1}
-    h1{margin:0;font-size:28px}
-    p.lead{margin:6px 0;color:var(--muted)}
+    html, body {
+      margin: 0;
+      height: 100%;
+      font-family: var(--font);
+      background: var(--bg-dark);
+      color: var(--text);
+      overflow-x: hidden;
+    }
 
-    /* Grid principal */
-    main{display:grid;grid-template-columns:1fr 320px;gap:18px}
-    .card{background:linear-gradient(180deg,#0f1626 0,#0c1220 100%);padding:16px;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
+    /* === FONDO DE NIEVE PIXELADA === */
+    canvas#snow {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background: radial-gradient(circle at center top, #0b1020 0%, #050510 100%);
+    }
 
-    /* Secciones */
-    section h2{margin:0 0 8px 0;font-size:18px}
-    .features{display:flex;flex-direction:column;gap:8px}
-    .feature{display:flex;gap:12px;align-items:center}
-    .badge{width:44px;height:24px;background:rgba(255,255,255,0.02);display:inline-flex;align-items:center;justify-content:center;border-radius:6px}
+    /* === CONTENEDOR PRINCIPAL === */
+    .container {
+      max-width: 1100px;
+      margin: 40px auto;
+      padding: 20px;
+    }
 
-    /* Descargas */
-    .downloads{display:flex;flex-direction:column;gap:12px}
-    .dl-row{display:flex;justify-content:space-between;align-items:center;padding:10px;background:rgba(255,255,255,0.02);border-radius:8px}
-    .btn{background:linear-gradient(180deg,var(--accent),#e6b800);color:#0b0b0b;padding:8px 12px;border-radius:8px;font-weight:700;cursor:pointer;border:0}
-    .btn:active{transform:translateY(1px)}
+    /* === HEADER === */
+    header {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      background: var(--panel);
+      border: 2px solid var(--accent);
+      border-radius: 10px;
+      padding: 16px;
+      box-shadow: var(--border-glow);
+    }
 
-    /* Requisitos */
-    .req-list{font-size:14px;color:var(--muted);line-height:1.45}
-    .accordion{margin-top:10px}
-    .acc-head{display:flex;justify-content:space-between;align-items:center;cursor:pointer;padding:8px;border-radius:8px;background:rgba(255,255,255,0.01)}
+    .sitename {
+      font-size: 14px;
+      color: var(--accent);
+      text-shadow: 0 0 6px var(--accent2);
+    }
 
-    /* Footer y small */
-    footer{margin-top:20px;text-align:center;color:var(--muted);font-size:13px}
+    .tag {
+      font-size: 10px;
+      color: var(--muted);
+    }
 
-    /* Pixelized look — escala y borde tipo píxel */
-    .pixelized{image-rendering:pixelated;image-rendering:-webkit-optimize-contrast}
-    .pixel-font{font-family:var(--mono);font-size:13px}
+    /* === HERO === */
+    .hero-text {
+      margin-top: 28px;
+      background: var(--panel);
+      border: 1px solid var(--accent);
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 0 15px var(--accent);
+      text-align: center;
+    }
 
-    /* Responsive */
-    @media (max-width:900px){main{grid-template-columns:1fr} .logo{display:none}}
+    h1 {
+      color: var(--accent2);
+      text-shadow: 0 0 10px var(--accent2);
+      font-size: 12px;
+      line-height: 1.6;
+    }
 
-    /* Tiny pixel-car controls for SVG block */
-    .car-wrap{width:220px;height:92px}
+    p.lead {
+      color: var(--muted);
+      font-size: 10px;
+      margin-top: 10px;
+      margin-bottom: 15px;
+    }
+
+    /* === BOTONES === */
+    .btn {
+      background: linear-gradient(90deg, var(--accent2), var(--accent));
+      border: none;
+      border-radius: 8px;
+      color: #000;
+      font-weight: bold;
+      padding: 8px 12px;
+      text-transform: uppercase;
+      font-size: 9px;
+      box-shadow: 0 0 8px var(--accent);
+      transition: 0.2s;
+    }
+
+    .btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 12px var(--accent2), 0 0 24px var(--accent);
+    }
+
+    /* === SECCIONES === */
+    main {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 18px;
+      margin-top: 20px;
+    }
+
+    .card {
+      background: var(--panel);
+      border-radius: 12px;
+      border: 1px solid var(--accent2);
+      padding: 16px;
+      box-shadow: 0 0 12px rgba(0, 217, 255, 0.2);
+    }
+
+    section h2 {
+      color: var(--accent);
+      text-shadow: 0 0 6px var(--accent);
+      font-size: 11px;
+      margin-bottom: 10px;
+    }
+
+    .feature strong {
+      color: var(--accent2);
+    }
+
+    .downloads .dl-row {
+      background: rgba(255,255,255,0.05);
+      border-radius: 6px;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+
+    .downloads .dl-row:hover {
+      background: rgba(0, 217, 255, 0.08);
+    }
+
+    .req-list ul {
+      font-size: 9px;
+      color: var(--muted);
+    }
+
+    /* === FOOTER === */
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      font-size: 9px;
+      color: var(--muted);
+      border-top: 1px solid var(--accent);
+      padding-top: 10px;
+    }
+
+    /* === RESPONSIVE === */
+    @media (max-width: 900px) {
+      main { grid-template-columns: 1fr; }
+      h1 { font-size: 10px; }
+    }
   </style>
 </head>
 <body>
+  <canvas id="snow"></canvas>
   <div class="container">
+    <header>
       <div>
         <div class="sitename">NASCAR FX VERSION</div>
         <div class="tag">Un juego inspirado en NASCAR hecho en Python</div>
       </div>
     </header>
 
-
-      <div class="hero-text">
-        <h1>Juego hecho por Leo Bayon Y Ema Colchicini </h1>
-        <p class="lead">Corre en pistas inspiradas con algunas físicas simples con controles precisos</p>
-        <div style="display:flex;gap:8px;align-items:center;margin-top:8px">
-          <button class="btn" onclick="scrollToSection('downloads')">Descargas</button>
-          <button class="btn" onclick="scrollToSection('requisitos')">Requisitos</button>
-        </div>
+    <div class="hero-text">
+      <h1>Juego hecho por Leo Bayon y Ema Colchicini</h1>
+      <p class="lead">Corre en pistas con físicas simples y controles precisos</p>
+      <div style="display:flex;gap:8px;justify-content:center;">
+        <button class="btn" onclick="scrollToSection('downloads')">Descargas</button>
+        <button class="btn" onclick="scrollToSection('requisitos')">Requisitos</button>
       </div>
     </div>
 
@@ -88,111 +203,50 @@
         <section class="card">
           <h2>Características</h2>
           <div class="features">
-            <div class="feature"><div class="badge">1</div><div><strong>Gráficos</strong> — Cuenta con gráficos simples.</div></div>
-            <div class="feature"><div class="badge">2</div><div><strong>Controles</strong> — Teclado: ← → para moverse izquierda a derecha.</div></div>
-            <div class="feature"><div class="badge">3</div><div><strong>Modo local</strong> — Carreras rápidas con 3 vueltas y 3 dificultades.</div></div>
+            <div class="feature"><strong>1.</strong> Gráficos simples y pixelados</div>
+            <div class="feature"><strong>2.</strong> Controles ← → para moverse</div>
+            <div class="feature"><strong>3.</strong> Carreras rápidas con 3 vueltas</div>
+          </div>
         </section>
 
-        <section id="downloads" class="card" style="margin-top:12px">
+        <section id="downloads" class="card">
           <h2>Descargas</h2>
-          <p class="pixel-font" style="color:var(--muted);margin:6px 0">Unico Archivo compatible con Windows y Linux</p>
-
           <div class="downloads">
             <div class="dl-row">
-              <div>
-                <strong>NASCAR FX VERSION.</strong>
-                <div class="pixel-font" style="color:var(--muted)">Tamaño aprox: 25 KB — hecho en Python (.py)</div>
-              </div>
-              <div>
-                <button class="btn" onclick="download('exe')">Descargar</button>
-              </div>
+              <strong>NASCAR FX VERSION</strong>
+              <button class="btn" onclick="download('exe')">Descargar</button>
             </div>
-
             <div class="dl-row">
-              <div>
-                <strong>NASCAR FX (Version Anterior)</strong>
-                <div class="pixel-font" style="color:var(--muted)">Cuenta con la primera Version del juego.</div>
-              </div>
-              <div>
-                <button class="btn" onclick="download('py')">Descargar</button>
-              </div>
+              <strong>NASCAR FX (Versión Anterior)</strong>
+              <button class="btn" onclick="download('py')">Descargar</button>
             </div>
           </div>
         </section>
 
-        <section id="instalacion" class="card" style="margin-top:12px">
-          <h2>Instalación de Python</h2>
-          <ol class="pixel-font" style="color:var(--muted)">
-            <li>Si tiene el <strong>Archivo.py, </strong>descargue el instalador de Python. Es posible que pueda pedir permisos para Windows.</li>
-              <ul>
-                <li>Instala Python 3.14 o superior: https://www.python.org/</li>
-                <li>Desde la carpeta del proyecto ejecuta: <code>python -m pip install -r requirements.txt</code></li>
-                <li>Inicia: <code>python main.py</code></li>
-              </ul>
-            </li>
-          </ol>
-        </section>
-
-        <section id="requisitos" class="card" style="margin-top:12px">
+        <section id="requisitos" class="card">
           <h2>Requisitos del sistema</h2>
-          <p class="pixel-font" style="color:var(--muted)">A continuación se indican requisitos orientativos para el ejecutable Python/Pygame que acompaña al proyecto.</p>
           <div class="req-list">
-            <strong>Mínimos</strong>
+            <strong>Mínimos:</strong>
             <ul>
-              <li>OS: Windows 10 / Ubuntu 20.04 o equivalente.</li>
-              <li>CPU: 2 núcleos modernos.</li>
-              <li>RAM: 2 GB.</li>
-              <li>Espacio: 50 MB libres.</li>
-              <li>Python: no requerido si usas .exe; si ejecutas desde fuente: Python 3.10+ y Pygame 2.x.</li>
+              <li>OS: Windows 10 / Ubuntu 20.04</li>
+              <li>CPU: 2 núcleos</li>
+              <li>RAM: 2 GB</li>
             </ul>
-            <strong>Recomendado</strong>
+            <strong>Recomendado:</strong>
             <ul>
-              <li>OS: Windows 10/11 o una distro Linux reciente.</li>
-              <li>CPU: 4 núcleos.</li>
+              <li>CPU: 4 núcleos</li>
               <li>RAM: 4 GB+</li>
-              <li>GPU: aceleración 2D (drivers actualizados).</li>
-              <li>Python 3.10+ y Pygame 2.1+ si ejecutas desde fuente.</li>
+              <li>Python 3.10+ y Pygame 2.x</li>
             </ul>
-
-            <div class="accordion">
-              <div class="acc-head" onclick="toggleAcc('acc1')">
-                <div>Detalles técnicos — dependencias (click)</div>
-                <div id="acc1-icon">▶</div>
-              </div>
-              <div id="acc1" style="display:none;margin-top:8px;color:var(--muted)">
-                <ul>
-                  <li>requirements.txt típico: <code>pygame>=2.0.0</code>, <code>numpy</code> (opcional)</li>
-                  <li>Si empaquetas con PyInstaller: comprueba la inclusión de carpetas assets/ y pygame DLLs en Windows.</li>
-                </ul>
-              </div>
-            </div>
-
           </div>
         </section>
-
       </div>
 
       <aside class="card">
         <h2>Panel rápido</h2>
-        <div style="margin-top:8px">
-          <div style="margin-bottom:8px"><strong>Versión:</strong> 1.5 (Última)</div>
-          <div style="margin-bottom:8px"><strong>Tamaño: </div></strong> 25 KB (estimado)</div>
-          <div style="margin-bottom:8px"><strong>Formato:</strong> .py (Python Para Windows)</div>
-        </div>
-
-        <div style="margin-top:12px">
-          <h3 style="margin:0 0 6px 0">Controles</h3>
-          <div class="pixel-font" style="color:var(--muted)">
-            ← / → : Girar — ⇧ (Turbo)
-          </div>
-        </div>
-
-        <div style="margin-top:12px">
-          <h3 style="margin:0 0 6px 0">Notas para empaquetar</h3>
-          <div class="pixel-font" style="color:var(--muted)">
-            Usa <code>pyinstaller --onefile --add-data "assets;assets" main.py</code> en Windows. Ajusta rutas de assets en el código para soporte de PyInstaller.
-          </div>
-        </div>
+        <div><strong>Versión:</strong> 1.5 (Última)</div>
+        <div><strong>Tamaño:</strong> 25 KB</div>
+        <div><strong>Formato:</strong> .py</div>
       </aside>
     </main>
 
@@ -202,37 +256,58 @@
   </div>
 
   <script>
-    // Navegación sencilla
-    function scrollToSection(id){
+    /* === Scroll suave === */
+    function scrollToSection(id) {
       const el = document.getElementById(id);
-      if(!el) return;
-      el.scrollIntoView({behavior:'smooth',block:'start'});
+      if (!el) return;
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
-    // Manejo de "descargas" demo — en producción sustituir por URLs reales
+    /* === Mapa de descargas === */
     function download(type){
       const map = {
         'exe': 'PY_NASCAR_EMAYLEO.py',
         'py': 'PY_NASCAR_EMAYLEO_VER_SIMPLE.py'
       };
-      const url = map[type] || map['src'];
-      // Abrir en nueva pestaña — en un sitio real, asegúrate de servir ficheros desde tu servidor.
-      window.open(url, '_blank');
+      window.open(map[type], '_blank');
     }
 
-    // Accordion
-    function toggleAcc(id){
-      const el = document.getElementById(id);
-      const icon = document.getElementById(id+'-icon') || document.getElementById('acc1-icon');
-      if(!el) return;
-      if(el.style.display === 'none' || el.style.display === ''){ el.style.display = 'block'; if(icon) icon.textContent = '▼'; }
-      else { el.style.display = 'none'; if(icon) icon.textContent = '▶'; }
+    /* === NIEVE PIXELADA === */
+    const canvas = document.getElementById('snow');
+    const ctx = canvas.getContext('2d');
+    let w, h;
+    const pixels = [];
+
+    function resize() {
+      w = canvas.width = window.innerWidth;
+      h = canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    for (let i = 0; i < 300; i++) {
+      pixels.push({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        s: Math.random() * 2 + 1,
+        v: Math.random() * 0.5 + 0.5
+      });
     }
 
-    // Mejora: detectar ejecución desde .exe (no siempre posible) — placeholder
-    (function(){
-      // Siéntete libre de conectar a una API para estadísticas de descargas, o inyectar links finales.
-    })();
+    function snow() {
+      ctx.clearRect(0, 0, w, h);
+      ctx.fillStyle = "#aafaff";
+      for (let p of pixels) {
+        ctx.fillRect(p.x, p.y, p.s, p.s);
+        p.y += p.v;
+        if (p.y > h) {
+          p.y = 0;
+          p.x = Math.random() * w;
+        }
+      }
+      requestAnimationFrame(snow);
+    }
+    snow();
   </script>
 </body>
 </html>
